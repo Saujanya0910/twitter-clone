@@ -27,9 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-LOGIN_URL = 'login'
-
-LOGOUT_REDIRECT_URL = 'frontpage'
+LOGIN_URL = 'login' # override login url to set ours
+LOGIN_REDIRECT_URL = 'feed'
+LOGOUT_REDIRECT_URL = 'frontpage' # override logout redirect
 
 # Application definition
 
@@ -125,6 +125,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

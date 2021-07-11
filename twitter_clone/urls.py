@@ -18,6 +18,7 @@ from django.urls import path
 from django.contrib.auth import views
 
 from apps.core.views import *
+from apps.feed.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,4 +27,6 @@ urlpatterns = [
     path('login/', views.LoginView.as_view(template_name='core/login.html'), name='login'),
     path('signup/', signup, name='signup'),
     path('logout/', views.LogoutView.as_view(template_name='core/logout.html'), name='logout'),
+    
+    path('feed/', feed, name='feed'),
 ]

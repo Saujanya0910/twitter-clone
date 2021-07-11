@@ -1,0 +1,77 @@
+{% extends 'core/base.html' %}
+
+  {% block content %}
+    <div class="container" id="feedapp">
+      <div class="columns">
+        <div class="column is-12">
+          <div class="wrapper-form">
+            <form @submit.prevent="submitTweet()">
+              <div class="field">
+                <div class="control">
+                  <textarea class="textarea" v-model="body" placeholder="What's new? Tweet and let everyone know!">
+                  </textarea>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="control">
+                  <button class="button is-success">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="wrapper-tweets">
+            <div class="tweet" v-for="tweet in tweets">
+              <p class="name">
+                [[ tweet.author ]]
+              </p>
+              <p>
+                [[ tweet.body ]]
+              </p>
+              <p class="info">
+                [[ tweet.created_at ]]
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endblock %}
+
+  {% block script %}
+  <script>
+    new Vue({
+      el: "#feedapp",
+      delimiters: ['[[', ']]'], // change default vue delimiters to [[,]] for vue stuff
+      data() {
+        return {
+          tweets: [],
+          body: '',
+          author: '{{ request.user.username }}',
+          created_at: 'Now'
+        }
+      },
+
+      methods: {
+        submitTweet() {
+          console.log("submit tweet")
+
+          if(this.body.length) {
+            let tweet = {
+              'body': this.body,
+              'author': this.author,
+              'created_at': this.created_at
+            }
+
+            this.tweets.unshift(tweet)
+          }
+
+          this.body = ''
+        }
+      }
+    })
+  </script>
+  {% endblock %}
