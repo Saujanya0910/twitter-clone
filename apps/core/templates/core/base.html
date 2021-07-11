@@ -25,6 +25,30 @@
         <span aria-hidden="true"></span>
       </a>
     </div>
+
+    <div class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            {% if request.user.is_authenticated %}
+              <a href="{% url 'logout' %}" class="button is-danger">
+                Logout
+              </a>
+            {% endif %}
+            <a href="{% url 'signup' %}" class="button is-success">
+              <strong>
+                Signup
+              </strong>
+            </a>
+            <a href="{% url 'login' %}" class="button is-light">
+              <strong>
+                Login
+              </strong>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </nav>
 
   <!-- content -->
