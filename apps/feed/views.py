@@ -13,9 +13,19 @@ def feed(request):
   # to get all follower's ids
   for author in request.user.userprofile.follows.all():
     userids.append(author.user.id)
+  
+  breakpoint()
 
   # get all tweets for those ids
   tweets = Tweet.objects.filter(created_by_id__in=userids)
+  
+  for tweet in tweets:
+    l = tweet.likes.filter(created_by_id__in=request.user.id)
+
+    if l.count() > 0:
+      tweet.liked = True
+    else:
+      tweet.liked = False
 
   return render(request, 'feed/feed.html', {'tweets': tweets})
 

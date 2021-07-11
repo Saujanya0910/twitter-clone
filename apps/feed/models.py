@@ -17,5 +17,8 @@ class Tweet(models.Model):
 
 class Like(models.Model):
   tweet = models.ForeignKey(Tweet, related_name='likes', on_delete=models.CASCADE)
-  liked_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
-  liked_at = models.DateTimeField(auto_now_add=True)
+  created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='likes')
+  created_at = models.DateTimeField(auto_now_add=True)
+
+  def __str__(self):
+    return f"{self.tweet} - like"

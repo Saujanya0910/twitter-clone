@@ -4,3 +4,4 @@ from .models import *
 
 
 admin.site.register(Tweet)
+admin.site.register(Like)

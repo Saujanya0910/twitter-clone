@@ -63,9 +63,9 @@
 												<br>
 												{{ tweet.body }}
 												<br>
-												<!-- <a @click="likeTweet({{ tweet.id}})" v-if="!liked_tweets.includes({{ tweet.id }})">Like</a>
+												<a @click="likeTweet({{ tweet.id}})" v-if="!liked_tweets.includes({{ tweet.id }})">Like</a>
 												<span v-if="liked_tweets.includes({{ tweet.id }})">Liked</span>
-												<small id="likes-{{ tweet.id }}">{{ tweet.likes.count }} likes</small> -->
+												<small id="likes-{{ tweet.id }}">{{ tweet.likes.count }} likes</small>
 											</p>
 										</div>
 									</div>
@@ -82,7 +82,9 @@
 	<script>
 		new Vue({
 			el: '#feedapp',
+
 			delimiters: ['[[', ']]'],
+			
 			data () {
 				return {
 					tweets: [],
@@ -90,40 +92,43 @@
 					oinker: '{{ request.user.username }}',
 					created_at: 'Now',
 					avatar: '{% if request.user.user_profile.avatar %}{{ request.user.user_profile.avatar.url }}{% endif %}',
-					// liked_tweets: [{% for tweet in tweets %}{% if tweet.liked %}{{ tweet.id }},{% endif %}{% endfor %}]
+					liked_tweets: [{% for tweet in tweets %}{% if tweet.liked %}{{ tweet.id }},{% endif %}{% endfor %}]
 				}
 			},
+
 			methods: {
-				// likeTweet(tweet_id) {
-				// 	this.liked_tweets.push(parseInt(tweet_id));
+				likeTweet(tweet_id) {
+					this.liked_tweets.push(parseInt(tweet_id))
 
-				// 	var tweet = {
-				// 		'tweet_id': tweet_id
-				// 	};
-
-				// 	fetch('/api/add_like/', {
-				// 		method: 'POST',
-				// 		headers: {
-				// 			'Content-Type': 'application/json',
-				// 			'X-CSRFToken': '{{ csrf_token }}'
-				// 		},
-				// 		credentials: 'same-origin',
-				// 		body: JSON.stringify(tweet)
-				// 	})
-				// 	.then((response) => {
-				// 		console.log(response);
-				// 	})
-				// 	.catch((error) => {
-				// 		console.log(error);
-				// 	});
-
-				// 	const el = document.getElementById('likes-' + tweet_id);
-				// 	const likes = parseInt(el.innerHTML.split(' ')[0] + 1);
-				// 	el.innerHTML = likes + ' likes';  
-				// },
+					var tweet = {
+						'tweet_id': tweet_id
+					}
+					
+					// api call to add like
+					fetch('/api/add_like/', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'X-CSRFToken': '{{ csrf_token }}'
+						},
+						credentials: 'same-origin',
+						body: JSON.stringify(tweet)
+					})
+					.then((response) => {
+						console.log(response)
+					})
+					.catch((error) => {
+						console.log(error)
+					})
+					
+					// add html text beside no. of likes
+					const el = document.getElementById('likes-' + tweet_id)
+					const likes = parseInt(el.innerHTML.split(' ')[0] + 1)
+					el.innerHTML = likes + ' likes'  
+				},
 
 				submitTweet() {
-					console.log('submitTweet');
+					console.log('submitTweet')
 
 					if (this.body.length > 0) {
 						var tweet = {
@@ -131,12 +136,12 @@
 							'oinker': this.oinker,
 							'created_at': this.created_at,
 							'avatar': this.avatar
-						};
+						}
 
-						this.tweets.unshift(tweet);
+						this.tweets.unshift(tweet)
 
-						// Send to backend
-						fetch('/api/add_oink/', {
+						// api call to save tweet in backend
+						fetch('/api/add_tweet/', {
 							method: 'POST',
 							headers: {
 								'Content-Type': 'application/json',
@@ -146,14 +151,14 @@
 							body: JSON.stringify(tweet)
 						})
 						.then((response) => {
-							console.log(response);
+							console.log(response)
 						})
 						.catch((error) => {
-							console.log(error);
-						});
+							console.log(error)
+						})
 					}
 
-					this.body = '';
+					this.body = ''
 				}
 			}
 		})
