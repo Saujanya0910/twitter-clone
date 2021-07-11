@@ -15,8 +15,6 @@
           <hr>
 
           <form action="{% url 'search' %}" method="get">
-            {% csrf_token %}
-
             <div class="field">
               <div class="control">
                 <input type="text" class="input" name="query" value="{{ query }}">

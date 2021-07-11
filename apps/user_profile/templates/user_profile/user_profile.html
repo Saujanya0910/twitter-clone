@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+
+{% load humanize %}
+
+  {% block content %}
+    <div class="container">
+      <div class="columns">
+        <div class="column is-12">
+          <h1 class="title">
+            {{ user.username }}'s Profile
+          </h1>
+
+          <p>
+            <!-- link to user's followers list -->
+            <a href="{% url 'followers' user.username %}">
+              Followers: {{ user.user_profile.followed_by.count }}
+            </a>
+          </p>
+          
+          <p>
+            <a href="{% url 'followings' user.username %}">
+              Following: {{ user.user_profile.follows.count }}
+            </a>
+          </p>
+
+          {% if user != request.user %}
+            {% if request.user.user_profile in user.user_profile.followed_by.all %}
+              <a href="{% url 'unfollow_user' user.username %}" class="button is-danger">
+                Unfollow
+              </a>
+            {% else %}
+              <a href="{% url 'follow_user' user.username %}" class="button is-success">
+                Follow
+              </a>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-8">
+          <div class="wrapper-tweets">
+            {% for tweet in user.tweets.all %}
+              <div class="tweet">
+                <p class="name">
+                  {{ tweet.created_by.username }}
+                </p>
+                <p>
+                  {{ tweet.body }}
+                </p>
+                <p class="info">
+                  {{ tweet.created_at|naturaltime }}
+                </p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endblock %}

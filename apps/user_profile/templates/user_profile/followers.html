@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %}
+
+{% load humanize %}
+
+  {% block content %}
+    <div class="container">
+      <div class="columns">
+        <div class="column is-12">
+          <h1 class="title">
+            {{ user.username }}'s Followers ({{ user.user_profile.followed_by.count }})
+          </h1>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-8">
+          {% for follower in user.user_profile.followed_by.all %}
+            <p class="name">
+              <a href="{% url 'user_profile' follower.user.username %}">
+                {{ follower.user.username }}
+              </a>
+            </p>
+          {% empty %}
+            <!-- if no records found -->
+            {% if request.user == user %}
+            <!-- if viewing current user's followers -->
+              <p>
+                Sorry, you don't have any followers :(
+              </p>
+            {% else %}
+              <p>
+                {{ user.username }} has no followers!
+              </p>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% endblock %}

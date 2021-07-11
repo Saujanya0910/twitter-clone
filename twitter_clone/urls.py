@@ -20,6 +20,8 @@ from django.conf import settings
 
 from apps.core.views import *
 from apps.feed.views import *
+from apps.user_profile.views import *
+
 from apps.feed.api import *
 
 urlpatterns = [
@@ -32,6 +34,12 @@ urlpatterns = [
     
     path('feed/', feed, name='feed'),
     path('search/', search, name='search'),
+
+    path('profile/<str:username>/', user_profile, name='user_profile'),
+    path('profile/<str:username>/followers/', followers, name='followers'),
+    path('profile/<str:username>/followings/', followings, name='followings'),
+    path('profile/<str:username>/follow/', follow_user, name='follow_user'),
+    path('profile/<str:username>/unfollow/', unfollow_user, name='unfollow_user'),
 
     # apis
     path('api/add_tweet/', api_add_tweet, name='api_add_tweet')
