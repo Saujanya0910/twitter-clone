@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views
 from django.conf import settings
+from django.conf.urls.static import static
 
 from apps.core.views import *
 from apps.feed.views import *
@@ -35,6 +36,7 @@ urlpatterns = [
     path('feed/', feed, name='feed'),
     path('search/', search, name='search'),
 
+    path('profile/edit/', edit_profile, name='edit_profile'),
     path('profile/<str:username>/', user_profile, name='user_profile'),
     path('profile/<str:username>/followers/', followers, name='followers'),
     path('profile/<str:username>/followings/', followings, name='followings'),
@@ -43,4 +45,4 @@ urlpatterns = [
 
     # apis
     path('api/add_tweet/', api_add_tweet, name='api_add_tweet')
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # static files for dev server

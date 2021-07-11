@@ -29,22 +29,64 @@
 
           <div class="wrapper-tweets">
             <!-- display all followers' tweets -->
+            <div class="tweet" v-for="tweet in tweets">
+              <article class="media">
+                <figure class="media-left">
+                  <p class="image is-64x64">
+                    <img :src="tweet.avatar" alt="">
+                  </p>
+                </figure>
+
+                <div class="media-content">
+                  <div class="content">
+                    <p>
+                      <strong>
+                        [[ tweet.author ]]
+                      </strong>
+
+                      <small>
+                        [[ tweet.created_at ]]
+                      </small>
+
+                      <br>
+                      
+                      [[ tweet.body ]]
+                    </p>
+                  </div>
+                </div>
+              </article>
+            </div>
+
             {% for tweet in tweets %}
               <div class="tweet">
-                <p class="name">
-                  {{ tweet.created_by.username }}
-                </p>
-                <p class="">
-                  {{ tweet.body }}
-                </p>
-                <p class="info">
-                  <!-- humanize time format -->
-                  {{ tweet.created_at|naturaltime }} 
-                </p>
+                <article class="media">
+                  <figure class="media-left">
+                    <p class="image is-64x64">
+                      {% if tweet.created_by.user_profile.avatar %}
+                        <img src="{{ tweet.created_by.user_profile.avatar.url }}">
+                      {% endif %}
+                    </p>
+                  </figure>
+
+                  <div class="media-content">
+                    <div class="content">
+                      <p>
+                        <strong><a href="{% url 'user_profile' tweet.created_by.username %}">{{ oink.created_by.username }}</a></strong>
+                        <small>{{ oink.created_at|naturaltime }}</small>
+                        <br>
+                        {{ oink.body }}
+                        <br>
+                        <!-- <a @click="likeOink({{ tweet.id}})" v-if="!liked_oinks.includes({{ oink.id }})">Like</a>
+                        <span v-if="liked_oinks.includes({{ tweet.id }})">Liked</span>
+                        <small id="likes-{{ tweet.id }}">{{ tweet.likes.count }} likes</small> -->
+                      </p>
+                    </div>
+                  </div>
+                </article>
               </div>
             {% endfor %}
             
-            <!-- display user's tweets -->
+            <!-- display user's tweets
             <div class="tweet" v-for="tweet in tweets">
               <p class="name">
                 [[ tweet.author ]]
@@ -55,7 +97,7 @@
               <p class="info">
                 [[ tweet.created_at ]]
               </p>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -72,7 +114,8 @@
           tweets: [],
           body: '',
           author: '{{ request.user.username }}',
-          created_at: 'Now'
+          created_at: 'Now',
+          avatar: '{% if request.user.user_profile.avatar %} {{ request.user.user_profile.avatar }} {% endif %}'
         }
       },
 

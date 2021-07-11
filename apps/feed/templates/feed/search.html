@@ -34,7 +34,15 @@
 
           <div class="search-results">
             {% for author in authors %}
-              <p>{{ author.username }}</p>
+              <p>
+                <a href="{% url 'user_profile' author.username %}">
+                  {{ author.username }}
+                </a>
+              </p>
+              {% empty %}
+              <p>
+                No users found with the search query!
+              </p>
             {% endfor %}
           </div>
         </div>

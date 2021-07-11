@@ -10,6 +10,14 @@
             {{ user.username }}'s Profile
           </h1>
 
+          {% if user.user_profile.avatar %}
+            <figure class="image is-128x128">
+              <img src="{{ user.user_profile.avatar.url }}" alt="">
+            </figure>
+          {% endif %}
+
+          <hr>
+
           <p>
             <!-- link to user's followers list -->
             <a href="{% url 'followers' user.username %}">
@@ -42,15 +50,33 @@
           <div class="wrapper-tweets">
             {% for tweet in user.tweets.all %}
               <div class="tweet">
-                <p class="name">
-                  {{ tweet.created_by.username }}
-                </p>
-                <p>
-                  {{ tweet.body }}
-                </p>
-                <p class="info">
-                  {{ tweet.created_at|naturaltime }}
-                </p>
+                <!-- display all tweets in a container each -->
+                <article class="media">
+                  <figure class="media-left">
+                    <p class="image is-64x64">
+                      {% if user.user_profile.avatar %}
+                        <img src="{{ user.user_profile.avatar.url }}" alt="">
+                      {% endif %}
+                    </p>
+                  </figure>
+
+                  <div class="media-content">
+                    <div class="content">
+                      <p>
+                        <strong>
+                          {{ tweet.created_by.username }}
+                        </strong>
+                        <small>
+                          {{ tweet.created_at|naturaltime }}
+                        </small>
+
+                        <br>
+
+                        {{ tweet.body }}
+                      </p>
+                    </div>
+                  </div>
+                </article>
               </div>
             {% endfor %}
           </div>

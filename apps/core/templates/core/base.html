@@ -44,6 +44,9 @@
           <a href="{% url 'user_profile' request.user.username %}" class="navbar-item">
             Profile
           </a>
+          <a href="{% url 'edit_profile' %}" class="navbar-item">
+            Edit Profile
+          </a>
         {% endif %}
 
         <div class="navbar-item">
