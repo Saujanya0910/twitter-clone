@@ -10,3 +10,6 @@ class Tweet(models.Model):
 
   class Meta:
     ordering = ('-created_at',)
+
+  def __str__(self):
+    return f"{self.created_by}'s tweet"

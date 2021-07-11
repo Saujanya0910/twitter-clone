@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views
+from django.conf import settings
 
 from apps.core.views import *
 from apps.feed.views import *
+from apps.feed.api import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +31,7 @@ urlpatterns = [
     path('logout/', views.LogoutView.as_view(template_name='core/logout.html'), name='logout'),
     
     path('feed/', feed, name='feed'),
+
+    # apis
+    path('api/add_tweet/', api_add_tweet, name='api_add_tweet')
 ]
