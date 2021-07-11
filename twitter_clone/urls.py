@@ -31,6 +31,7 @@ urlpatterns = [
     path('logout/', views.LogoutView.as_view(template_name='core/logout.html'), name='logout'),
     
     path('feed/', feed, name='feed'),
+    path('search/', search, name='search'),
 
     # apis
     path('api/add_tweet/', api_add_tweet, name='api_add_tweet')
