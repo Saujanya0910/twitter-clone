@@ -9,20 +9,16 @@ from .models import *
 @login_required  # allow only if user is logged in
 def feed(request):
   userids = [request.user.id]
-  
-  # to get all follower's ids
-  for author in request.user.userprofile.follows.all():
+
+  for author in request.user.user_profile.follows.all():
     userids.append(author.user.id)
-  
-  breakpoint()
 
-  # get all tweets for those ids
   tweets = Tweet.objects.filter(created_by_id__in=userids)
-  
-  for tweet in tweets:
-    l = tweet.likes.filter(created_by_id__in=request.user.id)
 
-    if l.count() > 0:
+  for tweet in tweets:
+    likes = tweet.likes.filter(created_by_id=request.user.id)
+
+    if likes.count() > 0:
       tweet.liked = True
     else:
       tweet.liked = False
