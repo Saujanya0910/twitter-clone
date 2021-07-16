@@ -44,5 +44,6 @@ urlpatterns = [
     path('profile/<str:username>/unfollow/', unfollow_user, name='unfollow_user'),
 
     # apis
-    path('api/add_tweet/', api_add_tweet, name='api_add_tweet')
+    path('api/add_tweet/', api_add_tweet, name='api_add_tweet'),
+    path('api/add_like/', api_add_like, name='api_add_like')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # static files for dev server

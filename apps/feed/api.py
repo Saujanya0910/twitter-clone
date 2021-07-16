@@ -20,6 +20,6 @@ def api_add_like(request):
 
 # if like is present and liked by the current user
   if not Like.objects.filter(tweet_id=tweet_id).filter(created_by=request.user).exists():
-    like = Like.objects.filter(tweet_id=tweet_id)
+    like = Like.objects.create(tweet_id=tweet_id, created_by=request.user)
 
   return JsonResponse({'success': True})
