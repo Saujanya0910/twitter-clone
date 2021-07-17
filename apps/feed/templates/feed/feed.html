@@ -65,7 +65,13 @@
 												<br>
 												<a @click="likeTweet({{ tweet.id}})" v-if="!liked_tweets.includes({{ tweet.id }})">Like</a>
 												<span v-if="liked_tweets.includes({{ tweet.id }})">Liked</span>
-												<small id="likes-{{ tweet.id }}">{{ tweet.likes.count }} likes</small>
+												<small id="likes-{{ tweet.id }}">
+													{% if tweet.likes.count > 1 %}
+														{{ tweet.likes.count }} likes
+													{% else %}
+														{{ tweet.likes.count }} like
+													{% endif %}
+												</small>
 											</p>
 										</div>
 									</div>
