@@ -50,7 +50,7 @@
 									<figure class="media-left">
 										<p class="image is-64x64">
 											{% if tweet.created_by.user_profile.avatar %}
-												<img src="{{ tweet.created_by.user_profile.avatar.url }}">
+												<img src="{{ tweet.created_by.user_profile.avatar.url }}" style="border-radius: 50%; height: 64px;">
 											{% endif %}
 										</p>
 									</figure>
@@ -58,11 +58,12 @@
 									<div class="media-content">
 										<div class="content">
 											<p>
-												<strong>
-													<a href="{% url 'user_profile' tweet.created_by.username %}">
-														{{ tweet.created_by.username }}
-													</a>
-												</strong>
+												<a href="{% url 'user_profile' tweet.created_by.username %}">
+													<strong>
+														{{ tweet.created_by.first_name }} {{ tweet.created_by.last_name }} 
+													</strong>
+													(@{{ user.username }})
+												</a>
 												
 												<small>{{ tweet.created_at|naturaltime }}</small>
 												

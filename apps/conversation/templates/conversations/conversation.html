@@ -23,9 +23,24 @@
                     <div class="media-content">
                       <div class="content">
                         <p>
-                          <strong>{{ message.created_by.username }}</strong> 
+                          {% if message.created_by.user_profile.username != request.user.user_profile.username %}
+                            <a href="{% url 'user_profile' message.created_by.username %}">
+                              <strong>
+                                {{ message.created_by.first_name }} {{ message.created_by.last_name }} 
+                              </strong>
+                              (@{{ message.created_by.username }})
+                            </a>
+                          {% else %}
+                            <strong>
+                              {{ message.created_by.first_name }} {{ message.created_by.last_name }} 
+                            </strong>
+                            (@{{ message.created_by.username }})
+                          {% endif %}
+
                           <small>{{ message.created_at|naturaltime }}</small>
+                          
                           <br>
+                          
                           {{ message.content }}
                         </p>
                       </div>

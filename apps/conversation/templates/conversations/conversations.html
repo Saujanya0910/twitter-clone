@@ -14,7 +14,7 @@
 							{% for user in conversation.users.all %}
 								{% if user != request.user %}
 									<a href="{% url 'conversation' user.id %}">
-										<p>{{ user.username }} - {{ conversation.modified_at|naturaltime }}</p>
+										<p>{{ user.first_name }} {{ user.last_name }} ({{ user.username }}) - {{ conversation.modified_at|naturaltime }}</p>
 									</a>
 								{% endif %}
 							{% endfor %}
