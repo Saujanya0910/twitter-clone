@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 from .forms import *
+from apps.notification.utilities import create_notification
 
 # Create your views here.
 def user_profile(request, username):
@@ -50,6 +51,9 @@ def follow_user(request, username):
 
   # add user to following list
   request.user.user_profile.follows.add(user.user_profile)
+
+  # send notification for a new follower
+  create_notification(request, user, 'follower')
 
   return redirect('user_profile', username=username)
 

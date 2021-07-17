@@ -27,14 +27,14 @@
                             <a href="{% url 'user_profile' message.created_by.username %}">
                               <strong>
                                 {{ message.created_by.first_name }} {{ message.created_by.last_name }} 
+                                @{{ message.created_by.username }}
                               </strong>
-                              (@{{ message.created_by.username }})
                             </a>
                           {% else %}
                             <strong>
                               {{ message.created_by.first_name }} {{ message.created_by.last_name }} 
+                              @{{ message.created_by.username }}
                             </strong>
-                            (@{{ message.created_by.username }})
                           {% endif %}
 
                           <small>{{ message.created_at|naturaltime }}</small>

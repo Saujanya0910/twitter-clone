@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 import json
 from django.http import JsonResponse
+from apps.notification.utilities import create_notification
 
 @login_required
 def api_send_message(request):
@@ -13,5 +14,9 @@ def api_send_message(request):
     conversation_id=conversation_id, 
     content=content, 
     created_by=request.user)
+
+  for user in message.conversation.users.all():
+    if user != request.user:
+      create_notification(request, user, 'message')
 
   return JsonResponse({'success': True})

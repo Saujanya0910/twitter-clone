@@ -62,7 +62,7 @@
 													<strong>
 														{{ tweet.created_by.first_name }} {{ tweet.created_by.last_name }} 
 													</strong>
-													(@{{ user.username }})
+													(@{{ tweet.created_by.username }})
 												</a>
 												
 												<small>{{ tweet.created_at|naturaltime }}</small>

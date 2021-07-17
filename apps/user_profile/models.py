@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
   user = models.OneToOneField(User, on_delete=models.CASCADE)
   follows = models.ManyToManyField('self', related_name='followed_by', symmetrical=False)  # if A follows B, B should not automatically follow back A
-  avatar = models.ImageField(upload_to='uploads/', blank=False, null=False)
+  avatar = models.ImageField(upload_to='uploads/', null=False, blank=False, default='uploads/default.jpg')
   # , default='uploads/default.jpg'
 
   def __str__(self):

@@ -2,6 +2,7 @@ import json
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import *
+from apps.notification.utilities import create_notification
 
 @login_required
 def api_add_tweet(request):
@@ -21,5 +22,10 @@ def api_add_like(request):
 # if like is present and liked by the current user
   if not Like.objects.filter(tweet_id=tweet_id).filter(created_by=request.user).exists():
     like = Like.objects.create(tweet_id=tweet_id, created_by=request.user)
+    
+    # get tweet details
+    tweet = Tweet.objects.get(id=tweet_id)
+    # send notif for like
+    create_notification(request, tweet.created_by, 'like')
 
   return JsonResponse({'success': True})
