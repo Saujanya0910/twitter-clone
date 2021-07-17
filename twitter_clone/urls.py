@@ -23,6 +23,7 @@ from apps.core.views import *
 from apps.feed.views import *
 from apps.user_profile.views import *
 from apps.conversation.views import *
+from apps.notification.views import *
 
 from apps.feed.api import *
 from apps.conversation.api import *
@@ -47,6 +48,8 @@ urlpatterns = [
 
     path('conversations/', conversations, name='conversations'),
     path('conversation/<int:user_id>/', conversation, name='conversation'),
+
+    path('notifications/', notifications, name='notifications'),
 
     # api endpoints
     path('api/add_tweet/', api_add_tweet, name='api_add_tweet'),
