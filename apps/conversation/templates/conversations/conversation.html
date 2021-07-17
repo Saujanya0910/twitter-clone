@@ -1,0 +1,132 @@
+{% extends 'core/base.html' %}
+
+  {% load humanize %}
+
+  {% block content %}
+    <div class="container" id="conversation-app">
+      <div class="columns">
+        <div class="column is-12">
+          <h1 class="title">Conversation:</h1>
+
+          <div class="messages">
+            {% for message in conversation.messages.all %}
+              <div class="tweet">
+                <article class="media">
+                    <figure class="media-left">
+                      <p class="image is-64x64">
+                        {% if message.created_by.user_profile.avatar %}
+                          <img src="{{ message.created_by.user_profile.avatar.url }}">
+                        {% endif %}
+                      </p>
+                    </figure>
+
+                    <div class="media-content">
+                      <div class="content">
+                        <p>
+                          <strong>{{ message.created_by.username }}</strong> 
+                          <small>{{ message.created_at|naturaltime }}</small>
+                          <br>
+                          {{ message.content }}
+                        </p>
+                      </div>
+                    </div>
+                </article>
+              </div>
+            {% endfor %}
+
+            <div class="tweet" v-for="message in messages">
+              <article class="media">
+                <figure class="media-left">
+                  <p class="image is-64x64">
+                    <img :src="message.avatar">
+                  </p>
+                </figure>
+
+                <div class="media-content">
+                  <div class="content">
+                    <p>
+                      <strong>[[ message.author ]]</strong> 
+                      <small>[[ message.created_at ]]</small>
+                      <br>
+                      [[ message.content ]]
+                    </p>
+                  </div>
+                </div>
+              </article>
+            </div>
+            </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <form v-on:submit.prevent="sendMessage()">
+        <div class="field">
+          <div class="control">
+            <textarea class="textarea" v-model="content" placeholder="Send message..."></textarea>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="control">
+            <button class="button is-success">Send</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  {% endblock %}
+
+  {% block script %}
+  <script>
+    var conversationApp = new Vue({
+      el: '#conversation-app',
+
+      delimiters: ['[[', ']]'],
+
+      data () {
+        return {
+          messages: [],
+          content: '',
+          author: '{{ request.user.username }}',
+          created_at: 'Now',
+          avatar: '{% if request.user.user_profile.avatar %}{{ request.user.user_profile.avatar.url }}{% endif %}'
+        }
+      },
+      
+      methods: {
+        sendMessage() {
+          if (this.content.length > 0) {
+            var message = {
+              'content': this.content,
+              'author': this.author,
+              'created_at': this.created_at,
+              'avatar': this.avatar,
+              'conversation_id': '{{ conversation.id }}'
+            };
+
+            fetch('/api/send_message/', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+              },
+              credentials: 'same-origin',
+              body: JSON.stringify(message)
+            })
+            .then((response) => {
+              console.log(response)
+              if(response.status == 200) {
+                this.messages.unshift(message);
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            })
+
+            this.content = '';
+          }
+        }
+      }
+    })
+  </script>
+  {% endblock %}

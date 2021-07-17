@@ -11,11 +11,11 @@ class Conversation(models.Model):
     ordering = ['-modified_at']
 
   def __str__(self):
-    return f"{self.users} - conversation"
+    return f"{self.users.first().username}, {self.users.last().username} - conversation"
 
 
 
-class ConversationMessages(models.Model):
+class ConversationMessage(models.Model):
   conversation = models.ForeignKey(Conversation, related_name='messages_conversation', on_delete=models.CASCADE)
   content = models.TextField()
   created_at = models.DateTimeField(auto_now_add=True)
@@ -24,11 +24,10 @@ class ConversationMessages(models.Model):
   class Meta:
     ordering = ['created_at']
 
-
   def save(self, *args, **kwargs):
     self.conversation.save()
 
-    super(Conversation, self).save(*args, **kwargs)
+    super(ConversationMessage, self).save(*args, **kwargs)
 
   def __str__(self):
     return f"{self.created_by.username} - message"

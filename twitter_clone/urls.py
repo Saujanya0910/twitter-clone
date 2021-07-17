@@ -22,8 +22,10 @@ from django.conf.urls.static import static
 from apps.core.views import *
 from apps.feed.views import *
 from apps.user_profile.views import *
+from apps.conversation.views import *
 
 from apps.feed.api import *
+from apps.conversation.api import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -43,7 +45,11 @@ urlpatterns = [
     path('profile/<str:username>/follow/', follow_user, name='follow_user'),
     path('profile/<str:username>/unfollow/', unfollow_user, name='unfollow_user'),
 
-    # apis
+    path('conversations/', conversations, name='conversations'),
+    path('conversation/<int:user_id>/', conversation, name='conversation'),
+
+    # api endpoints
     path('api/add_tweet/', api_add_tweet, name='api_add_tweet'),
-    path('api/add_like/', api_add_like, name='api_add_like')
+    path('api/add_like/', api_add_like, name='api_add_like'),
+    path('api/send_message/', api_send_message, name='api_send_message')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # static files for dev server
