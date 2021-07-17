@@ -1,8 +1,11 @@
 import json
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .models import *
+
 from apps.notification.utilities import create_notification
+import re
 
 @login_required
 def api_add_tweet(request):
@@ -10,6 +13,16 @@ def api_add_tweet(request):
   body = data['body']
 
   tweet = Tweet.objects.create(body=body, created_by=request.user)
+
+  # use regex pattern check to see if any username is mentioned
+  results = re.findall('(^|[^@\w])@(\w{1,20})', body)
+
+  for result in results:
+    result = result[1]
+    print(result)
+    # if actual user found, send notif for mention
+    if User.objects.filter(username=result).exists() and result != request.user:
+      create_notification(request, User.objects.get(username=result), 'mention')
 
   return JsonResponse({'success': True})
 
@@ -26,6 +39,7 @@ def api_add_like(request):
     # get tweet details
     tweet = Tweet.objects.get(id=tweet_id)
     # send notif for like
-    create_notification(request, tweet.created_by, 'like')
+    if like.created_by != request.user:
+      create_notification(request, tweet.created_by, 'like')
 
   return JsonResponse({'success': True})

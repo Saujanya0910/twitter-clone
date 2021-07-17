@@ -140,7 +140,7 @@
 						console.log(error)
 					})
 					
-					// add html text beside no. of likes
+					// add html text beside no. of likes and/or increment likes
 					const el = document.getElementById('likes-' + tweet_id)
 					const likes = parseInt(el.innerHTML.split(' ')[0]) + 1
 					if(el.innerHTML > 1)
