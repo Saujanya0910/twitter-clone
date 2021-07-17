@@ -1,5 +1,7 @@
 {% extends 'core/base.html' %}
 
+  {% load humanize %}
+  
   {% block content %}
     <div class="container">
       <div class="columns">
@@ -33,17 +35,79 @@
           <hr>
 
           <div class="search-results">
-            {% for author in authors %}
+            <!-- if none availabe, show placeholder text -->
+            {% if not tweets and not authors %}
               <p>
-                <a href="{% url 'user_profile' author.username %}">
-                  {{ author.username }}
-                </a>
+                No results, please try a different search query.
               </p>
-              {% empty %}
-              <p>
-                No users found with the search query!
-              </p>
-            {% endfor %}
+            {% endif %}
+            
+            <!-- if tweets available, loop and display -->
+            {% if tweets %}
+              <strong>Tweets:</strong>
+              
+              <div class="wrapper-tweets">
+                {% for tweet in tweets %}
+                  <div class="tweet">
+                    <article class="media">
+                      <figure class="media-left">
+                        <p class="image is-64x64">
+                          {% if tweet.created_by.user_profile.avatar %}
+                            <img src="{{ tweet.created_by.user_profile.avatar.url }}">
+                          {% endif %}
+                        </p>
+                      </figure>
+    
+                      <div class="media-content">
+                        <div class="content">
+                          <p>
+                            <strong>
+                              <!-- click to visit profile -->
+                              <a href="{% url 'user_profile' tweet.created_by.username %}">
+                                {{ tweet.created_by.username }}
+                              </a>
+                            </strong>
+                            
+                            <small>{{ tweet.created_at|naturaltime }}</small>
+                            <br>
+                            
+                            {{ tweet.body }}
+                            
+                            <br>
+                            <!-- <a @click="likeTweet({{ tweet.id}})" v-if="!liked_tweets.includes({{ tweet.id }})">Like</a>
+                            <span v-if="liked_tweets.includes({{ tweet.id }})">Liked</span>
+                            <small id="likes-{{ tweet.id }}">
+                              {% if tweet.likes.count > 1 %}
+                                {{ tweet.likes.count }} likes
+                              {% else %}
+                                {{ tweet.likes.count }} like
+                              {% endif %}
+                            </small> -->
+                          </p>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            <!-- if authors available, loop and display -->
+            {% if authors %}
+              <strong>Authors:</strong>
+
+              {% for author in authors %}
+                <p>
+                  <a href="{% url 'user_profile' author.username %}">
+                    {{ author.username }}
+                  </a>
+                </p>
+                {% empty %}
+                <p>
+                  No users found with the search query!
+                </p>
+              {% endfor %}
+            {% endif %}
           </div>
         </div>
       </div>

@@ -33,12 +33,15 @@ def search(request):
   if len(query) > 0:
     # case insensitive search for usernames
     authors = User.objects.filter(username__icontains=query)
+    tweets = Tweet.objects.filter(body__icontains=query)
   else:
     authors = []
+    tweets = []
 
   context = {
     'query': query,
-    'authors': authors
+    'authors': authors,
+    'tweets': tweets,
   }
 
   return render(request, 'feed/search.html', context)

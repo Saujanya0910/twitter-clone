@@ -58,11 +58,20 @@
 									<div class="media-content">
 										<div class="content">
 											<p>
-												<strong><a href="{% url 'user_profile' tweet.created_by.username %}">{{ tweet.created_by.username }}</a></strong>
+												<strong>
+													<a href="{% url 'user_profile' tweet.created_by.username %}">
+														{{ tweet.created_by.username }}
+													</a>
+												</strong>
+												
 												<small>{{ tweet.created_at|naturaltime }}</small>
+												
 												<br>
+												
 												{{ tweet.body }}
+												
 												<br>
+												
 												<a @click="likeTweet({{ tweet.id}})" v-if="!liked_tweets.includes({{ tweet.id }})">Like</a>
 												<span v-if="liked_tweets.includes({{ tweet.id }})">Liked</span>
 												<small id="likes-{{ tweet.id }}">
