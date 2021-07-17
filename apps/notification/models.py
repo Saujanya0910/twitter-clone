@@ -6,11 +6,13 @@ class Notification(models.Model):
   MESSAGE = 'message'
   FOLLOWER = 'follower'
   LIKE = 'like'
+  MENTION = 'mention'
 
   CHOICES = (
     (MESSAGE, 'Message'),
     (FOLLOWER, 'Follower'),
-    (LIKE, 'Like')
+    (LIKE, 'Like'),
+    (MENTION, 'Mention'),
   )
 
   to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notifications')

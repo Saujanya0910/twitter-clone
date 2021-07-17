@@ -6,18 +6,20 @@ from django.contrib.auth.decorators import login_required
 @login_required
 def notifications(request):
   goto = request.GET.get('goto', '')
-  notification_id = request.GET.get('notification_id', 0)
+  notification_id = request.GET.get('id', 0)
 
   if goto != '':
     notification = Notification.objects.get(id=notification_id)
     notification.is_read = True
     notification.save()
 
-    if notification.type == Notification.MESSAGE:
+    if notification.notification_type == Notification.MESSAGE:
       return redirect('conversation', user_id=notification.created_by.id)
-    elif notification.type == Notification.FOLLOWER:
+    elif notification.notification_type == Notification.FOLLOWER:
       return redirect('user_profile', username=notification.created_by.username)
-    elif notification.type == Notification.LIKE:
+    elif notification.notification_type == Notification.LIKE:
       return redirect('user_profile', username=notification.to_user.username)
+    elif notification.notification_type == Notification.MENTION:
+      return redirect('user_profile', username=notification.created_by.username)
 
   return render(request, 'notification/notifications.html')
