@@ -8,14 +8,41 @@
             Login
           </h1>
 
-          <form action="." method="post">
+          <form class="box" action="." method="post">
             {% csrf_token %}
+            <p>
+              {{ form.errors }}
+            </p>
+            <div class="field">
+              <label class="label">
+                {{ form.username.label_tag }}
+              </label>
+              <div class="control">
+                {{ form.username }}
+              </div>
+            </div>
+          
+            <div class="field">
+              <label class="label">
+                {{ form.password.label_tag }}
+              </label>
 
-            {{ form.as_p }}
-            <button class="buttons is-success" type="submit">
-              Login
-            </button>
+              <div class="control">
+                {{ form.password }}
+              </div>
+            </div>
+          
+            <button class="button is-success">Log in</button>
           </form>
+
+          <h2>
+            Not a registered user?
+            <a href="{% url 'signup' %}">
+              <span style="text-decoration: underline;">
+                Sign up now.
+              </span>
+            </a>
+          </h2>
         </div>
       </div>
     </div>

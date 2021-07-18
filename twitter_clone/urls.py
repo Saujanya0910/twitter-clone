@@ -32,7 +32,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', frontpage, name='frontpage'),
-    path('login/', views.LoginView.as_view(template_name='core/login.html'), name='login'),
+    path('login/', views.LoginView.as_view(template_name='core/login.html', redirect_authenticated_user=True), name='login'),
     path('signup/', signup, name='signup'),
     path('logout/', views.LogoutView.as_view(template_name='core/logout.html'), name='logout'),
     

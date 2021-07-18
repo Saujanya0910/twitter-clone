@@ -12,12 +12,21 @@
             Create a new account and get started quickly!
           </h3>
 
-          <form action="." method="post"> {% csrf_token %}
+          <form action="." method="post" class="box"> {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="button is-success">
               Sign Up
             </button>
           </form>
+
+          <h2>
+            Already an existing user?
+            <a href="{% url 'login' %}">
+              <span style="text-decoration: underline;">
+                Log in here.
+              </span>
+            </a>
+          </h2>
           
         </div>
       </div>

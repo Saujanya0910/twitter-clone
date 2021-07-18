@@ -8,6 +8,10 @@ def frontpage(request):
 
 
 def signup(request):
+
+  if request.user.is_authenticated:
+    return redirect('feed')
+
   # if logging in
   if request.method == 'POST':
     form = UserCreationForm(request.POST)
