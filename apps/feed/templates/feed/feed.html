@@ -10,7 +10,7 @@
 						<form v-on:submit.prevent="submitTweet()">
 							<div class="field">
 								<div class="control">
-									<textarea class="textarea" v-model="body" placeholder="What's new? Tweet and let everybody know!"></textarea>
+									<textarea class="textarea" v-model.trim="body" placeholder="What's new? Tweet and let everybody know!"></textarea>
 								</div>
 							</div>
 
@@ -34,7 +34,9 @@
 								<div class="media-content">
 									<div class="content">
 										<p>
-											<strong>[[ tweet.oinker ]]</strong>
+											<strong>
+												[[ tweet.author.first_name ]] [[ tweet.author.last_name ]] @[[ tweet.author.username ]]
+											</strong>
 											<small>[[ tweet.created_at ]]</small>
 											<br>
 											[[ tweet.body ]]
@@ -60,9 +62,8 @@
 											<p>
 												<a href="{% url 'user_profile' tweet.created_by.username %}">
 													<strong>
-														{{ tweet.created_by.first_name }} {{ tweet.created_by.last_name }} 
+													{{ tweet.created_by.first_name }} {{ tweet.created_by.last_name }} @{{ tweet.created_by.username }}
 													</strong>
-													@{{ tweet.created_by.username }}
 												</a>
 												
 												<small>{{ tweet.created_at|naturaltime }}</small>
@@ -105,7 +106,11 @@
 				return {
 					tweets: [],
 					body: '',
-					oinker: '{{ request.user.username }}',
+					author: {
+						username: '{{ request.user.username }}',
+						first_name: '{{ request.user.first_name }}',
+						last_name: '{{ request.user.last_name }}',
+					},
 					created_at: 'Now',
 					avatar: '{% if request.user.user_profile.avatar %}{{ request.user.user_profile.avatar.url }}{% endif %}',
 					liked_tweets: [{% for tweet in tweets %}{% if tweet.liked %}{{ tweet.id }},{% endif %}{% endfor %}]
@@ -115,17 +120,13 @@
 			methods: {
 				// post new tweet
 				submitTweet() {
-					console.log('submitTweet')
-
 					if (this.body.length > 0) {
 						var tweet = {
 							'body': this.body,
-							'oinker': this.oinker,
+							'author': this.author,
 							'created_at': this.created_at,
 							'avatar': this.avatar
 						}
-
-						this.tweets.unshift(tweet)
 
 						// api call to save tweet in backend
 						fetch('/api/add_tweet/', {
@@ -139,6 +140,7 @@
 						})
 						.then((response) => {
 							console.log(response)
+							this.tweets.unshift(tweet)
 						})
 						.catch((error) => {
 							console.log(error)

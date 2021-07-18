@@ -11,13 +11,35 @@
 				<div class="conversations-list">
 					{% for conversation in conversations %}
 						<div class="conversations-list-item">
-							{% for user in conversation.users.all %}
-								{% if user != request.user %}
-									<a href="{% url 'conversation' user.id %}">
-										<p>{{ user.first_name }} {{ user.last_name }} ({{ user.username }}) - {{ conversation.modified_at|naturaltime }}</p>
-									</a>
-								{% endif %}
-							{% endfor %}
+							<div class="wrapper-tweets">
+								{% for user in conversation.users.all %}
+									{% if user != request.user %}
+										<div class="tweet">
+											<article class="media">
+												<!-- user pic -->
+												<figure class="media-left">
+													<p class="image is-64x64">
+														<img src="{{ user.user_profile.avatar.url }}" style="border-radius: 50%;">
+													</p>
+												</figure>
+												
+												<!-- convo details -->
+												<div class="media-content">
+													<div class="content">
+														<p>
+															<strong>
+																<a href="{% url 'conversation' user.id %}">
+																	<p>{{ user.first_name }} {{ user.last_name }} @{{ user.username }} - {{ conversation.modified_at|naturaltime }}</p>
+																</a>
+															</strong>
+														</p>
+													</div>
+												</div>
+											</article>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
 						</div>
 					{% empty %}
 						<p>No conversations!</p>

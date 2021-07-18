@@ -166,5 +166,6 @@ STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 
 DEFAULT_FILE_STORAGE = 'twitter_clone.storages.MediaStore'
 
+print(STATIC_URL)
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = BASE_DIR / 'media'

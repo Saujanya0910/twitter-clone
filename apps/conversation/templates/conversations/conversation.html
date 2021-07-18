@@ -15,7 +15,7 @@
                     <figure class="media-left">
                       <p class="image is-64x64">
                         {% if message.created_by.user_profile.avatar %}
-                          <img src="{{ message.created_by.user_profile.avatar.url }}">
+                          <img src="{{ message.created_by.user_profile.avatar.url }}" style="border-radius: 50%;">
                         {% endif %}
                       </p>
                     </figure>
@@ -53,14 +53,14 @@
               <article class="media">
                 <figure class="media-left">
                   <p class="image is-64x64">
-                    <img :src="message.avatar">
+                    <img :src="message.avatar" style="border-radius: 50%;">
                   </p>
                 </figure>
 
                 <div class="media-content">
                   <div class="content">
                     <p>
-                      <strong>[[ message.author ]]</strong> 
+                      <strong>@[[ message.author ]]</strong> 
                       <small>[[ message.created_at ]]</small>
                       <br>
                       [[ message.content ]]

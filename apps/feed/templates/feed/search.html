@@ -44,7 +44,7 @@
             
             <!-- if tweets available, loop and display -->
             {% if tweets %}
-              <strong>Tweets:</strong>
+              <p class="title is-3">Tweets:</p>
               
               <div class="wrapper-tweets">
                 {% for tweet in tweets %}
@@ -64,7 +64,7 @@
                             <strong>
                               <!-- click to visit profile -->
                               <a href="{% url 'user_profile' tweet.created_by.username %}">
-                                {{ tweet.created_by.username }}
+                                @{{ tweet.created_by.username }}
                               </a>
                             </strong>
                             
@@ -94,7 +94,7 @@
 
             <!-- if authors available, loop and display -->
             {% if authors %}
-              <strong>Users:</strong>
+              <p class="title is-3">Users:</p>
 
               <div class="wrapper-tweets">
                 {% for author in authors %}

@@ -7,32 +7,58 @@
       <div class="columns">
         <div class="column is-12">
           <h1 class="title">
-            {{ user.username }}'s Following ({{ user.user_profile.follows.count }})
+            {{ user.first_name }} {{ user.last_name }} @{{ user.username }}'s Following ({{ user.user_profile.follows.count }})
           </h1>
         </div>
       </div>
 
       <div class="columns">
         <div class="column is-8">
-          {% for following in user.user_profile.follows.all %}
-            <p class="name">
-              <a href="{% url 'user_profile' following.user.username %}">
-                {{ following.user.username }}
-              </a>
-            </p>
-          {% empty %}
+          <div class="wrapper-tweets">
+            {% for following in user.user_profile.follows.all %}
+              <div class="tweet">
+                <article class="media">
+                  <figure class="media-left">
+                    <p class="image is-64x64">
+                      {% if following.user.user_profile.avatar %}
+                        <img src="{{ following.user.user_profile.avatar.url }}" style="border-radius: 50%;">
+                      {% endif %}
+                    </p>
+                  </figure>
+
+                  <div class="media-content">
+                    <div class="content">
+                      <p>
+                        <strong>
+                          <!-- click to visit profile -->
+                          <a href="{% url 'user_profile' following.user.username %}">
+                            {{ following.user.first_name }} {{ following.user.last_name }} @{{ following.user.username }}
+                          </a>
+                        </strong>
+                        
+                        <br>
+                        Followers: {{ following.user.user_profile.followed_by.count }}
+                        <br>
+                        Followings: {{ following.user.user_profile.follows.count }}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            {% empty %}
             <!-- if no records found -->
-            {% if request.user == user %}
-            <!-- if viewing current user's followings -->
-              <p>
-                You have not followed any user/page :(
-              </p>
-            {% else %}
-              <p>
-                {{ user.username }} is not following anybody!
-              </p>
-            {% endif %}
-          {% endfor %}
+              {% if request.user == user %}
+              <!-- if viewing current user's followers -->
+                <p>
+                  Sorry, you don't have any followers :(
+                </p>
+              {% else %}
+                <p>
+                  {{ user.username }} has no followers!
+                </p>
+              {% endif %}
+            {% endfor %}
+          </div>
         </div>
       </div>
     </div>
