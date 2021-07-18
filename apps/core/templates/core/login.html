@@ -10,29 +10,43 @@
 
           <form class="box" action="." method="post">
             {% csrf_token %}
-            <p>
-              {{ form.errors }}
-            </p>
-            <div class="field">
-              <label class="label">
-                {{ form.username.label_tag }}
-              </label>
-              <div class="control">
-                {{ form.username }}
-              </div>
-            </div>
-          
-            <div class="field">
-              <label class="label">
-                {{ form.password.label_tag }}
-              </label>
 
-              <div class="control">
-                {{ form.password }}
-              </div>
+            <div class="fieldWrapper">
+              {% for field in form %}
+                <div class="field">
+                  <!-- label -->
+                  <label class="label">
+                    {{ field.label_tag }}
+                  </label>
+
+                  <!-- input field -->
+                  <div class="control">
+                    {{ field }}
+                  </div>
+                </div>
+                
+                <!-- errors -->
+                <p style="color: red;">
+                  {{ field.errors }}
+                </p>
+
+                <!-- helper texts -->
+                {% if field.help_text %}
+                  <li class="help">{{ field.help_text|safe }}</li>
+                {% endif %}
+              
+              {% endfor %}
             </div>
-          
-            <button class="button is-success">Log in</button>
+
+            <p style="color: red;">
+              {{ form.non_field_errors }}
+            </p>
+            
+            <div class="field">
+              <p class="control">
+                <button class="button is-success">Log in</button>
+              </p>
+            </div>
           </form>
 
           <h2>
