@@ -27,17 +27,17 @@
                   <div class="control">
                     {{ field }}
                   </div>
-                </div>
 
-                <!-- errors -->
-                <p style="color: red;">
-                  {{ field.errors }}
-                </p>
-                
-                <!-- helper text -->
-                {% if field.help_text %}
-                  <li class="help">{{ field.help_text|safe }}</li>
-                {% endif %}
+                  <!-- errors -->
+                  <p style="color: red;">
+                    {{ field.errors|escape }}
+                  </p>
+                  
+                  <!-- helper text -->
+                  {% if field.help_text %}
+                    <li class="help">{{ field.help_text|safe }}</li>
+                  {% endif %}
+                </div>
               
               {% endfor %}
             </div>
