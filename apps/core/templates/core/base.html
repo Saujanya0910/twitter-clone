@@ -25,14 +25,14 @@
         </strong>
       </a>
 
-      <a href="" class="navbar-burger">
+      <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
       </a>
     </div>
 
-    <div class="navbar-menu">
+    <div class="navbar-menu" id="navMenu">
       <!-- search field with btn -->
       <div class="navbar-start">
         <div class="navbar-item">
@@ -108,6 +108,7 @@
   </section>
 
   <!-- scripts -->
+  <script src="{% static 'js/script.js' %}"></script>
   <!-- import vue.js -->
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
   {% block script %}
