@@ -96,17 +96,39 @@
             {% if authors %}
               <strong>Users:</strong>
 
-              {% for author in authors %}
-                <p>
-                  <a href="{% url 'user_profile' author.username %}">
-                    {{ author.username }}
-                  </a>
-                </p>
-                {% empty %}
-                <p>
-                  No users found with the search query!
-                </p>
-              {% endfor %}
+              <div class="wrapper-tweets">
+                {% for author in authors %}
+                  <div class="tweet">
+                    <article class="media">
+                      <figure class="media-left">
+                        <p class="image is-64x64">
+                          {% if author.user_profile.avatar %}
+                            <img src="{{ author.user_profile.avatar.url }}" style="border-radius: 50%;">
+                          {% endif %}
+                        </p>
+                      </figure>
+    
+                      <div class="media-content">
+                        <div class="content">
+                          <p>
+                            <strong>
+                              <!-- click to visit profile -->
+                              <a href="{% url 'user_profile' author.username %}">
+                                {{ author.first_name }} {{ author.last_name }} @{{ author.username }}
+                              </a>
+                            </strong>
+                            
+                            <br>
+                            Followers: {{ author.user_profile.followed_by.count }}
+                            <br>
+                            Followings: {{ author.user_profile.follows.count }}
+                          </p>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                {% endfor %}
+              </div>
             {% endif %}
           </div>
         </div>

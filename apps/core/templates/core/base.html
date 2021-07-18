@@ -21,7 +21,7 @@
     <div class="navbar-brand">
       <a href="/" class="navbar-item">
         <strong>
-          Twitter
+          Chit-Chatter
         </strong>
       </a>
 
@@ -36,16 +36,19 @@
       <!-- search field with btn -->
       <div class="navbar-start">
         <div class="navbar-item">
+
           <form action="{% url 'search' %}" method="get">
             <div class="field has-addons">
-              <div class="control">
-                <input type="text" class="input" placeholder="Search" name="query">
-              </div>
-              <div class="control">
-                <button class="button is-success">
-                  Search
-                </button>
-              </div>
+              {% if request.user.is_authenticated %}
+                <div class="control">
+                  <input type="text" class="input" placeholder="Search" name="query">
+                </div>
+                <div class="control">
+                  <button class="button is-success">
+                    Search
+                  </button>
+                </div>
+              {% endif %}
             </div>
           </form>
         </div>

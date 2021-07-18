@@ -8,6 +8,10 @@
             Sign Up
           </h1>
 
+          <h3 class="subtitle">
+            Create a new account and get started quickly!
+          </h3>
+
           <form action="." method="post"> {% csrf_token %}
             {{ form.as_p }}
             <button type="submit" class="button is-success">
