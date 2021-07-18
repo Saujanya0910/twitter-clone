@@ -60,7 +60,7 @@
                 <div class="media-content">
                   <div class="content">
                     <p>
-                      <strong>@[[ message.author ]]</strong> 
+                      <strong>[[ message.author.first_name ]] [[ message.author.last_name ]] @[[ message.author.username ]]</strong> 
                       <small>[[ message.created_at ]]</small>
                       <br>
                       [[ message.content ]]
@@ -102,7 +102,11 @@
         return {
           messages: [],
           content: '',
-          author: '{{ request.user.username }}',
+          author: {
+						username: '{{ request.user.username }}',
+						first_name: '{{ request.user.first_name }}',
+						last_name: '{{ request.user.last_name }}',
+					},
           created_at: 'Now',
           avatar: '{% if request.user.user_profile.avatar %}{{ request.user.user_profile.avatar.url }}{% endif %}'
         }

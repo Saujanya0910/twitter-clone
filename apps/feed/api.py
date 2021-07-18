@@ -19,7 +19,6 @@ def api_add_tweet(request):
 
   for result in results:
     result = result[1]
-    print(result)
     # if actual user found, send notif for mention
     if User.objects.filter(username=result).exists() and result != request.user:
       create_notification(request, User.objects.get(username=result), 'mention')
