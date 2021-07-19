@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, ValidationError
 from django.contrib.auth.models import User
-from apps.user_profile.forms import UserRegistrationForm
+from apps.user_profile.forms import UserRegistrationForm, UserLoginForm
 
 # Create your views here.
 def frontpage(request):
@@ -10,11 +11,9 @@ def frontpage(request):
 
 
 def signup(request):
-
   if request.user.is_authenticated:
     return redirect('feed')
 
-  # if logging in
   if request.method == 'POST':
     form = UserRegistrationForm(request.POST)
 
@@ -43,7 +42,6 @@ def signup(request):
 
       return redirect('frontpage')
   
-  # create a new user
   else:
     form = UserRegistrationForm()
 
