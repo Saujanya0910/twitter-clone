@@ -29,7 +29,10 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'chit-chatter-0910.herokuapp.com/',
+    '127.0.0.1',
+]
 
 LOGIN_URL = 'login' # override login url to set ours
 LOGIN_REDIRECT_URL = 'feed'

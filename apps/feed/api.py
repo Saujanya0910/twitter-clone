@@ -38,7 +38,7 @@ def api_add_like(request):
     # get tweet details
     tweet = Tweet.objects.get(id=tweet_id)
     # send notif for like
-    if like.created_by != request.user:
+    if  tweet.created_by != like.created_by:
       create_notification(request, tweet.created_by, 'like')
 
   return JsonResponse({'success': True})

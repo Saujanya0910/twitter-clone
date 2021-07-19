@@ -19,20 +19,26 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 
+# views
 from apps.core.views import *
 from apps.feed.views import *
 from apps.user_profile.views import *
 from apps.conversation.views import *
 from apps.notification.views import *
 
+# forms
+from apps.user_profile.forms import UserLoginForm
+
+# api endpoints
 from apps.feed.api import *
 from apps.conversation.api import *
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('', frontpage, name='frontpage'),
-    path('login/', auth_views.LoginView.as_view(template_name='core/login.html', redirect_authenticated_user=True), name='login'),
+    path('login/', auth_views.LoginView.as_view(template_name='core/login.html', redirect_authenticated_user=True, authentication_form=UserLoginForm), name='login'),
     path('signup/', signup, name='signup'),
     path('logout/', auth_views.LogoutView.as_view(template_name='core/logout.html'), name='logout'),
     
