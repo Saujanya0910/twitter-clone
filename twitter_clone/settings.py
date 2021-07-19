@@ -29,7 +29,7 @@ SECRET_KEY = str(os.getenv('SECRET_KEY'))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
 
-ALLOWED_HOSTS = ['chit-chatter-0910.herokuapp.com','127.0.0.1','saujanya1046.pythonanywhere.com']
+ALLOWED_HOSTS = ['chit-chatter-0910.herokuapp.com','127.0.0.1','localhost']
 
 LOGIN_URL = 'login' # override login url to set ours
 LOGIN_REDIRECT_URL = 'feed'
@@ -178,9 +178,9 @@ DEFAULT_FILE_STORAGE = 'twitter_clone.storages.MediaStore'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = str(os.getenv('EMAIL_HOST'))
 EMAIL_HOST_USER = str(os.getenv('EMAIL_HOST_USER'))
 EMAIL_HOST_PASSWORD = str(os.getenv('EMAIL_HOST_PASSWORD'))
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'Chit-chatter Team <noreply@codingwithmitch.com>'
+DEFAULT_FROM_EMAIL = str(os.getenv('DEFAULT_FROM_EMAIL'))
