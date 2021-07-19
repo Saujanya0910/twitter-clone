@@ -28,14 +28,37 @@
                   </label>
 
                   <!-- input field -->
-                  <div class="control">
-                    {{ field }}
-                  </div>
+                  {% if field.label == 'Avatar' %}
+                    <div class="file has-name">
+                      <label class="file-label">
+                        {{ field }}
+                        
+                        <span class="file-cta">
+                          <span class="file-icon">
+                            <i class="fas fa-upload"></i>
+                          </span>
+                          <span class="file-label">
+                            Choose a file…
+                          </span>
+                        </span>
+                        
+                        <span class="file-name" id="fileName">
+
+                        </span>
+                      </label>
+                    </div>
+                  {% else %}
+                    <div class="control">
+                      {{ field }}
+                    </div>
+                  {% endif %}
+
+
 
                   {% if field.label == 'Avatar' %}
-                    <p class="image is-64x64">
-                      <img id="image_preview" alt="your image" style="border-radius: 50%;"/>
-                    </p>
+                    <figure class="image is-96x96">
+                      <img id="image_preview" alt="your image"  class="is-rounded">
+                    </figure>
                   {% endif %}
                 </div>
                 
@@ -72,11 +95,20 @@
   {% endblock %}
 
   {% block script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js" 
+      integrity="sha512-RXf+QSDCUQs5uwRKaDoXt55jygZZm2V++WUZduaU/Ui/9EGp3f/2KZVahFZBKGH0s774sd3HmrhUy+SgOFQLVQ==" 
+      crossorigin="anonymous" 
+      referrerpolicy="no-referrer"
+    >
+    </script>
+    
     <script>
       window.onload = async function () {
         // preview for selected img
         const fileUpload = document.getElementById('id_avatar')
         const previewElement = document.getElementById('image_preview')
+        const fileNameSpan = document.getElementById('fileName')
+
         previewElement.style.display = 'none'
 
         fileUpload.addEventListener('change', () => {
@@ -86,6 +118,7 @@
           const src = window.URL.createObjectURL(new Blob(binaryData, {type: "application/zip"}))
           if(src) {
             previewElement.src = src
+            fileNameSpan.innerText = `${selectedFile.name} (${Math.round((selectedFile.size/1024))} KB)`
             previewElement.style.display = 'inline-block'
           }
         })

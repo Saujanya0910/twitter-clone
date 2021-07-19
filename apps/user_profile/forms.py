@@ -59,9 +59,13 @@ class UserRegistrationForm(UserCreationForm):
 
 
 class UserProfileForm(forms.ModelForm):
-  email = forms.EmailField(max_length=50, required=True)
   first_name = forms.CharField(max_length=50, required=True)
   last_name = forms.CharField(max_length=50, required=True)
+  email = forms.EmailField(max_length=50, required=True)
+  avatar = forms.ImageField(
+    required=False,
+    widget=forms.FileInput(attrs={'class': 'form-control file-input', 'name': 'resume', 'accept': 'images/*'})
+  )
   
   class Meta:
     model = UserProfile
