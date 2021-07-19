@@ -19,16 +19,20 @@ from django.contrib.auth import views as auth_views
 from django.conf import settings
 from django.conf.urls.static import static
 
+# views
 from apps.core.views import *
 from apps.feed.views import *
 from apps.user_profile.views import *
 from apps.conversation.views import *
 from apps.notification.views import *
 
+# forms
 from apps.user_profile.forms import UserLoginForm
 
+# api endpoints
 from apps.feed.api import *
 from apps.conversation.api import *
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
