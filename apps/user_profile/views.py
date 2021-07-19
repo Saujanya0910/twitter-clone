@@ -32,11 +32,28 @@ def edit_profile(request):
     form = UserProfileForm(request.POST, request.FILES, instance=request.user.user_profile)
 
     if form.is_valid():
-      form.save()
+      # breakpoint()
+      first_name = form.cleaned_data.get('first_name')
+      last_name = form.cleaned_data.get('last_name')
+      avatar = request.FILES.get('avatar')
+      email = form.cleaned_data.get('email')
+
+      user = get_object_or_404(User, username=request.user.username)
+      user.first_name = first_name
+      user.last_name = last_name
+      user.email = email
+
+
+      user_profile = get_object_or_404(UserProfile, user=request.user)
+      if avatar is not None:
+        user_profile.avatar = avatar
+      user_profile.save()
+      user.save()
+
       return redirect('user_profile', username=request.user.username)
 
   else:
-    form = UserProfileForm(instance=request.user.user_profile)
+    form = UserProfileForm(instance=request.user)
 
   context = {
     'user': request.user,
@@ -44,6 +61,8 @@ def edit_profile(request):
   }
 
   return render(request, 'user_profile/edit_profile.html', context)
+
+
 
 @login_required
 def follow_user(request, username):
@@ -58,6 +77,7 @@ def follow_user(request, username):
   return redirect('user_profile', username=username)
 
 
+
 @login_required
 def unfollow_user(request, username):
   user = get_object_or_404(User, username=username)
@@ -68,10 +88,12 @@ def unfollow_user(request, username):
   return redirect('user_profile', username=username)
 
 
+
 def followers(request, username):
   user = get_object_or_404(User, username=username)
 
   return render(request, 'user_profile/followers.html', {'user': user})
+
 
 
 def followings(request, username):

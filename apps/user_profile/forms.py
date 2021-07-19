@@ -5,6 +5,7 @@ from django.contrib.auth import password_validation
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.shortcuts import get_object_or_404
 
 username_validator = UnicodeUsernameValidator()
 
@@ -55,7 +56,13 @@ class UserRegistrationForm(UserCreationForm):
     model = User
     fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'email',)
 
+
+
 class UserProfileForm(forms.ModelForm):
+  email = forms.EmailField(max_length=50, required=True)
+  first_name = forms.CharField(max_length=50, required=True)
+  last_name = forms.CharField(max_length=50, required=True)
+  
   class Meta:
     model = UserProfile
-    fields = ['avatar']
+    fields = ['first_name', 'last_name', 'avatar', 'email']
