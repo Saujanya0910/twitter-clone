@@ -12,39 +12,39 @@
             {% for message in conversation.messages_conversation.all %}
               <div class="tweet">
                 <article class="media">
-                    <figure class="media-left">
-                      <p class="image is-64x64">
-                        {% if message.created_by.user_profile.avatar %}
-                          <img src="{{ message.created_by.user_profile.avatar.url }}" style="border-radius: 50%;">
-                        {% endif %}
-                      </p>
-                    </figure>
+                  <figure class="media-left">
+                    <p class="image is-64x64">
+                      {% if message.created_by.user_profile.avatar %}
+                        <img src="{{ message.created_by.user_profile.avatar.url }}" style="border-radius: 50%;">
+                      {% endif %}
+                    </p>
+                  </figure>
 
-                    <div class="media-content">
-                      <div class="content">
-                        <p>
-                          {% if message.created_by.user_profile.username != request.user.user_profile.username %}
-                            <a href="{% url 'user_profile' message.created_by.username %}">
-                              <strong>
-                                {{ message.created_by.first_name }} {{ message.created_by.last_name }} 
-                                @{{ message.created_by.username }}
-                              </strong>
-                            </a>
-                          {% else %}
+                  <div class="media-content">
+                    <div class="content">
+                      <p>
+                        {% if message.created_by.user_profile.username != request.user.user_profile.username %}
+                          <a href="{% url 'user_profile' message.created_by.username %}">
                             <strong>
                               {{ message.created_by.first_name }} {{ message.created_by.last_name }} 
                               @{{ message.created_by.username }}
                             </strong>
-                          {% endif %}
+                          </a>
+                        {% else %}
+                          <strong>
+                            {{ message.created_by.first_name }} {{ message.created_by.last_name }} 
+                            @{{ message.created_by.username }}
+                          </strong>
+                        {% endif %}
 
-                          <small>{{ message.created_at|naturaltime }}</small>
-                          
-                          <br>
-                          
-                          {{ message.content }}
-                        </p>
-                      </div>
+                        <small>{{ message.created_at|naturaltime }}</small>
+                        
+                        <br>
+                        
+                        {{ message.content }}
+                      </p>
                     </div>
+                  </div>
                 </article>
               </div>
             {% endfor %}

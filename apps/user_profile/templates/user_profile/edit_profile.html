@@ -31,6 +31,12 @@
                   <div class="control">
                     {{ field }}
                   </div>
+
+                  {% if field.label == 'Avatar' %}
+                    <p class="image is-64x64">
+                      <img id="image_preview" alt="your image" style="border-radius: 50%;"/>
+                    </p>
+                  {% endif %}
                 </div>
                 
                 <!-- errors -->
@@ -49,14 +55,41 @@
             <p style="color: red;">
               {{ form.non_field_errors }}
             </p>
-            
+
             <div class="field">
               <p class="control">
                 <button class="button is-success" type="submit">Save changes</button>
+                
+                <a href="{% url 'user_profile' request.user.username %}">
+                  <button class="button is-danger">Cancel</button>
+                </a>
               </p>
             </div>
           </form>
         </div>
       </div>
     </div>
+  {% endblock %}
+
+  {% block script %}
+    <script>
+      window.onload = async function () {
+        // preview for selected img
+        const fileUpload = document.getElementById('id_avatar')
+        const previewElement = document.getElementById('image_preview')
+        previewElement.style.display = 'none'
+
+        fileUpload.addEventListener('change', () => {
+          const selectedFile = fileUpload.files[0]
+          let binaryData = [];
+          binaryData.push(selectedFile);
+          const src = window.URL.createObjectURL(new Blob(binaryData, {type: "application/zip"}))
+          if(src) {
+            previewElement.src = src
+            previewElement.style.display = 'inline-block'
+          }
+        })
+      }
+      
+    </script>
   {% endblock %}
