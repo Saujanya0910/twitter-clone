@@ -18,7 +18,8 @@
 
           <form action="." method="post" enctype="multipart/form-data">
             {% csrf_token %}
-
+            
+            <!-- form fields wrapper -->
             <div class="fieldWrapper">
               {% for field in form %}
                 <div class="field">
@@ -29,6 +30,7 @@
 
                   <!-- input field -->
                   {% if field.label == 'Avatar' %}
+                    <!-- if upload field, customized -->
                     <div class="file has-name">
                       <label class="file-label">
                         {{ field }}
@@ -48,14 +50,14 @@
                       </label>
                     </div>
                   {% else %}
+                    <!-- else render normal -->
                     <div class="control">
                       {{ field }}
                     </div>
                   {% endif %}
 
-
-
                   {% if field.label == 'Avatar' %}
+                  <!-- image preview -->
                     <figure class="image is-96x96">
                       <img id="image_preview" alt="your image"  class="is-rounded">
                     </figure>

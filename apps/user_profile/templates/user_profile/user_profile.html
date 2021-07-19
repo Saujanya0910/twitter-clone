@@ -115,8 +115,11 @@
 			},
 
 			methods: {
+
 				// action on clicking like
 				likeTweet(tweet_id) {
+          const el = document.getElementById('likes-' + tweet_id)
+					let likes = parseInt(el.innerText.split(' ')[0])
 					this.liked_tweets.push(parseInt(tweet_id))
 
 					var tweet = {
@@ -134,25 +137,22 @@
 						body: JSON.stringify(tweet)
 					})
 					.then((response) => {
-						console.log(response)
+						// on success, increment count
+					  likes += 1
+            if(likes > 1)
+              el.innerHTML = parseInt(likes) + ' likes'
+            else
+              el.innerHTML = parseInt(likes) + ' like'
+
+            window.location.reload(true)
 					})
 					.catch((error) => {
-						console.log(error)
+            console.log(error)
 					})
-					
-					// add html text beside no. of likes and/or increment likes
-					const el = document.getElementById('likes-' + tweet_id)
-					const likes = parseInt(el.innerHTML.split(' ')[0]) + 1
-					if(el.innerHTML > 1)
-						el.innerHTML = likes + ' likes'
-					else
-						el.innerHTML = likes + ' like'
 				},
 			},
 
-			created() {
-				// console.log(this.liked_tweets)
-			}
+			created() {}
 		})
 	</script>
 {% endblock %}
