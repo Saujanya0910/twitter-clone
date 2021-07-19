@@ -37,11 +37,14 @@ from apps.conversation.api import *
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', frontpage, name='frontpage'),
+    # auth views
     path('login/', auth_views.LoginView.as_view(template_name='core/login.html', redirect_authenticated_user=True, authentication_form=UserLoginForm), name='login'),
     path('signup/', signup, name='signup'),
     path('logout/', auth_views.LogoutView.as_view(template_name='core/logout.html'), name='logout'),
+    path('change-password/', auth_views.PasswordChangeView.as_view(template_name='core/change_password.html',success_url='/'), name='change_password'),
+
     
+    path('', frontpage, name='frontpage'),
     path('feed/', feed, name='feed'),
     path('search/', search, name='search'),
 
