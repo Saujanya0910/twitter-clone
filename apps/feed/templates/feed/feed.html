@@ -72,22 +72,36 @@
 												
 												{{ tweet.body|urlize }}
 												
-												<br>
-												
-												<span style="cursor: pointer;" class="material-icons-outlined" @click="likeTweet({{ tweet.id }})" v-if="!liked_tweets.includes({{ tweet.id }})">
-													favorite_border
-												</span>
-												<span style="cursor: pointer; color: red; padding: 0 0;" class="material-icons-outlined" @click="unlikeTweet({{ tweet.id }})" v-if="liked_tweets.includes({{ tweet.id }})">
-													favorite
-												</span>
-												
-												<small id="likes-{{ tweet.id }}">
-													{% if tweet.likes.count > 1 %}
-														{{ tweet.likes.count }} likes
-													{% else %}
-														{{ tweet.likes.count }} like
-													{% endif %}
-												</small>
+												<div style="display: flex; align-items: center;">
+                          <span 
+                            style="cursor: pointer;" 
+                            class="material-icons-outlined" 
+                            @click="likeTweet({{ tweet.id }})" 
+                            v-if="!liked_tweets.includes({{ tweet.id }})"
+                          >
+                            favorite_border
+                          </span>
+                          
+                          <span 
+                            style="cursor: pointer; color: red; padding: 0 0;" 
+                            class="material-icons-outlined" 
+                            @click="unlikeTweet({{ tweet.id }})" 
+                            v-if="liked_tweets.includes({{ tweet.id }})"
+                          >
+                            favorite
+                          </span>
+
+                          <small 
+                            style="margin-left: 5px;" 
+                            id="likes-{{ tweet.id }}"
+                          >
+                            {% if tweet.likes.count > 1 %}
+                              {{ tweet.likes.count }} likes
+                            {% else %}
+                              {{ tweet.likes.count }} like
+                            {% endif %}
+                          </small>
+                        </div>
 											</p>
 										</div>
 									</div>
