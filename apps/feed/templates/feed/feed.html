@@ -74,8 +74,13 @@
 												
 												<br>
 												
-												<a @click="likeTweet({{ tweet.id }})" v-if="!liked_tweets.includes({{ tweet.id }})">Like</a>
-												<a @click="unlikeTweet({{ tweet.id }})" v-if="liked_tweets.includes({{ tweet.id }})">Unlike</a>
+												<span style="cursor: pointer;" class="material-icons-outlined" @click="likeTweet({{ tweet.id }})" v-if="!liked_tweets.includes({{ tweet.id }})">
+													favorite_border
+												</span>
+												<span style="cursor: pointer; color: red; padding: 0 0;" class="material-icons-outlined" @click="unlikeTweet({{ tweet.id }})" v-if="liked_tweets.includes({{ tweet.id }})">
+													favorite
+												</span>
+												
 												<small id="likes-{{ tweet.id }}">
 													{% if tweet.likes.count > 1 %}
 														{{ tweet.likes.count }} likes
@@ -96,6 +101,7 @@
 	{% endblock %}
 
 	{% block script %}
+	<!-- <script type="text/css" src="https://cdn.jsdelivr.net/npm/@mdi/font@5.9.55/css/materialdesignicons.min.css"></script> -->
 	<script>
 		new Vue({
 			el: '#feedapp',
