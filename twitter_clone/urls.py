@@ -63,5 +63,6 @@ urlpatterns = [
     # api endpoints
     path('api/add_tweet/', api_add_tweet, name='api_add_tweet'),
     path('api/add_like/', api_add_like, name='api_add_like'),
+    path('api/delete_like/', api_delete_like, name='api_delete_like'),
     path('api/send_message/', api_send_message, name='api_send_message')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) # static files for dev server

@@ -31,14 +31,28 @@ def api_add_like(request):
   data = json.loads(request.body)  # convert json to python dict
   tweet_id = data['tweet_id']
 
-# if like is present and liked by the current user
+# if like is not already present and not liked by the current user, create new like entry
   if not Like.objects.filter(tweet_id=tweet_id).filter(created_by=request.user).exists():
     like = Like.objects.create(tweet_id=tweet_id, created_by=request.user)
     
     # get tweet details
     tweet = Tweet.objects.get(id=tweet_id)
     # send notif for like
-    if  tweet.created_by != like.created_by:
+    if tweet.created_by != like.created_by:
       create_notification(request, tweet.created_by, 'like')
+
+  return JsonResponse({'success': True})
+
+
+@login_required
+def api_delete_like(request):
+  # breakpoint()
+  data = json.loads(request.body)  # convert json to python dict
+  tweet_id = data['tweet_id']
+
+# if like is present and liked by the current user
+  if Like.objects.filter(tweet_id=tweet_id).filter(created_by=request.user).exists():
+    like = Like.objects.get(tweet_id=tweet_id, created_by=request.user)
+    like.delete()
 
   return JsonResponse({'success': True})

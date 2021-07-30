@@ -74,8 +74,8 @@
 												
 												<br>
 												
-												<a @click="likeTweet({{ tweet.id}})" v-if="!liked_tweets.includes({{ tweet.id }})">Like</a>
-												<span v-if="liked_tweets.includes({{ tweet.id }})">Liked</span>
+												<a @click="likeTweet({{ tweet.id }})" v-if="!liked_tweets.includes({{ tweet.id }})">Like</a>
+												<a @click="unlikeTweet({{ tweet.id }})" v-if="liked_tweets.includes({{ tweet.id }})">Unlike</a>
 												<small id="likes-{{ tweet.id }}">
 													{% if tweet.likes.count > 1 %}
 														{{ tweet.likes.count }} likes
@@ -172,6 +172,44 @@
 					.then((response) => {
 						// on success, increment count
 						likes += 1
+            if(likes > 1)
+              el.innerHTML = parseInt(likes) + ' likes'
+            else
+              el.innerHTML = parseInt(likes) + ' like'
+
+            window.location.reload(true)
+					})
+					.catch((error) => {
+						console.log(error)
+					})
+				},
+
+				// action on clicking unlike
+				unlikeTweet(tweet_id) {
+					const el = document.getElementById('likes-' + tweet_id)
+					let likes = parseInt(el.innerText.split(' ')[0])
+					
+					// find index of tweet and remove from list of likes
+					let tweetIdIdx = this.liked_tweets.findIndex(t => t == tweet_id)
+					this.liked_tweets.splice(tweetIdIdx, 1)
+
+					var tweet = {
+						'tweet_id': tweet_id
+					}
+					
+					// api call to delete like
+					fetch('/api/delete_like/', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'X-CSRFToken': '{{ csrf_token }}'
+						},
+						credentials: 'same-origin',
+						body: JSON.stringify(tweet)
+					})
+					.then((response) => {
+						// on success, decrement count
+						likes -= 1
             if(likes > 1)
               el.innerHTML = parseInt(likes) + ' likes'
             else
