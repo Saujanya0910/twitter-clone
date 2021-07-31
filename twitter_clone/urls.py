@@ -20,18 +20,18 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 # views
-from apps.core.views import *
-from apps.feed.views import *
-from apps.user_profile.views import *
-from apps.conversation.views import *
-from apps.notification.views import *
+from apps.core.views import frontpage, signup
+from apps.feed.views import feed, search
+from apps.user_profile.views import user_profile, edit_profile, follow_user, unfollow_user, followers, followings, tweet_likes
+from apps.conversation.views import conversation, conversations
+from apps.notification.views import notifications
 
 # forms
 from apps.user_profile.forms import UserLoginForm
 
 # api endpoints
-from apps.feed.api import *
-from apps.conversation.api import *
+from apps.feed.api import api_add_tweet, api_add_like, api_delete_like
+from apps.conversation.api import api_send_message
 
 
 urlpatterns = [
@@ -47,6 +47,8 @@ urlpatterns = [
     path('', frontpage, name='frontpage'),
     path('feed/', feed, name='feed'),
     path('search/', search, name='search'),
+
+    path('tweet/likes/<int:tweet_id>/', tweet_likes, name='tweet_likes'),
 
     path('profile/edit/', edit_profile, name='edit_profile'),
     path('profile/<str:username>/', user_profile, name='user_profile'),

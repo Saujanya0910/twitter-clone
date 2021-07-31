@@ -1,0 +1,66 @@
+{% extends 'core/base.html' %}
+
+{% load humanize %}
+
+  {% block content %}
+    <div class="container">
+      <div class="columns">
+        <div class="column is-12">
+          <h1 class="title">
+            Likes on {{ author.first_name }} {{ author.last_name }} (@{{ author.username }})'s Tweet ({{ likes.count }})
+          </h1>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-8">
+          <h2 class="subtitle">
+            Liked by:
+          </h2>
+          <div class="wrapper-tweets">
+            {% for like in likes %}
+              <div class="tweet">
+                <article class="media">
+                  <figure class="media-left">
+                    <p class="image is-64x64">
+                      <img src="{{ like.created_by.user_profile.avatar.url }}" style="border-radius: 50%;">
+                    </p>
+                  </figure>
+
+                  <div class="media-content">
+                    <div class="content">
+                      <p>
+                        <strong>
+                          <!-- click to visit profile -->
+                          <a href="{% url 'user_profile' like.created_by.username %}">
+                            {{ like.created_by.first_name }} {{ like.created_by.last_name }} @{{ like.created_by.username }}
+                          </a>
+                        </strong>
+                        
+                        <br>
+                        Followers: {{ like.created_by.user_profile.followed_by.count }}
+                        <br>
+                        Followings: {{ like.created_by.user_profile.follows.count }}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            {% empty %}
+            <!-- if no records found -->
+              {% if request.user == author %}
+              <!-- if viewing current user's followers -->
+                <p>
+                  Your tweet has no likes yet.
+                </p>
+              {% else %}
+                <p>
+                  This tweet has no likes!
+                </p>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endblock %}

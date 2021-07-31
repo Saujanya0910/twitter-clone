@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import *
 from apps.notification.utilities import create_notification
 
+from apps.feed.models import Like, Tweet
+
 # Create your views here.
 def user_profile(request, username):
   user = get_object_or_404(User, username=username)
@@ -100,3 +102,12 @@ def followings(request, username):
   user = get_object_or_404(User, username=username)
 
   return render(request, 'user_profile/following.html', {'user': user})
+
+
+
+@login_required
+def tweet_likes(request, tweet_id):
+  tweet = get_object_or_404(Tweet, id=tweet_id)
+  all_likes = Like.objects.filter(tweet=tweet)
+
+  return render(request, 'feed/tweet_likes.html', { 'likes': all_likes, 'author': tweet.created_by })
