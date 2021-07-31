@@ -95,8 +95,17 @@
                             style="margin-left: 5px;" 
                             id="likes-{{ tweet.id }}"
                           >
-                            {% if tweet.likes.count > 1 %}
-                              {{ tweet.likes.count }} likes
+                            {% if tweet.likes.count >= 1 %}
+                              {{ tweet.likes.count }}
+                              {% if tweet.likes.count == 1 %} 
+                                <a href="{% url 'tweet_likes' tweet.id %}">
+                                  like
+                                </a>
+                              {% else %}
+                                <a href="{% url 'tweet_likes' tweet.id %}">
+                                  likes
+                                </a>
+                              {% endif %}
                             {% else %}
                               {{ tweet.likes.count }} like
                             {% endif %}
